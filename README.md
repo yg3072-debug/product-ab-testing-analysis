@@ -54,53 +54,60 @@ The funnel analysis notebook measures user progression across the purchase journ
 
 ```text
 view_product → add_to_cart → checkout → purchase
+```
 
 The analysis compares non-cumulative and cumulative funnel definitions. The cumulative funnel is used for portfolio reporting because each step is constrained to users who completed all previous steps.
 
-3. Retention and Cohort Analysis
+### 3. Retention and Cohort Analysis
 
 The retention notebook analyzes whether users return after their first active date. It includes:
 
-Exact-day retention
-Day 1 / Day 3 / Day 7 adjusted retention
-Daily cohort retention
-Weekly cohort retention
-Retention heatmaps
+- Exact-day retention
+- Day 1 / Day 3 / Day 7 adjusted retention
+- Daily cohort retention
+- Weekly cohort retention
+- Retention heatmaps
 
 The analysis accounts for observation window limitations when calculating selected retention metrics.
 
-4. A/B Testing Basics
+### 4. A/B Testing Basics
 
 The A/B testing notebook simulates a checkout flow experiment and evaluates whether the treatment group has a higher purchase conversion rate than the control group.
 
 The analysis includes:
 
-Simulated experiment assignment
-Device and first-traffic-source balance checks
-Purchase conversion rate by group
-Absolute and relative lift
-Two-proportion z-test
-Experiment readout
-Key Learnings
+- Simulated experiment assignment
+- Device and first-traffic-source balance checks
+- Purchase conversion rate by group
+- Absolute and relative lift
+- Two-proportion z-test
+- Experiment readout
+
+## Key Learnings
 
 This project demonstrates the full analytics workflow:
 
+```text
 business question → metric definition → data grain → pandas implementation → statistical interpretation → business recommendation
+```
 
 Important analytical lessons include:
 
-Conversion rates must have clearly defined numerator and denominator.
-Funnel steps should be cumulative when measuring true user progression.
-Event-level fields such as traffic source must be carefully aggregated before being used in user-level analysis.
-Retention analysis requires a clear cohort definition and attention to observation windows.
-A/B testing requires balance checks, statistical testing, and cautious interpretation of segment-level results.
-Tools Used
-Python
-pandas
-numpy
-matplotlib
-statsmodels
-Jupyter Notebook
-Portfolio Relevance
+- Conversion rates must have clearly defined numerator and denominator.
+- Funnel steps should be cumulative when measuring true user progression.
+- Event-level fields such as traffic source must be carefully aggregated before being used in user-level analysis.
+- Retention analysis requires a clear cohort definition and attention to observation windows.
+- A/B testing requires balance checks, statistical testing, and cautious interpretation of segment-level results.
+
+## Tools Used
+
+- Python
+- pandas
+- numpy
+- matplotlib
+- statsmodels
+- Jupyter Notebook
+
+## Portfolio Relevance
 
 This project is designed to demonstrate practical product analytics skills for U.S. data roles, including Product Analyst, Data Analyst, Growth Analyst, BI Analyst, and Analytics Consultant positions.
