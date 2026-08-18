@@ -1,0 +1,12 @@
+table_name,column_name,description,grain_note
+users,user_id,Unique user identifier.,One row per user.
+users,first_seen_timestamp,Timestamp when the user was first observed on the platform.,Used to define new versus returning users.
+users,user_type,New or returning user status based on first_seen_timestamp.,Must not be defined using purchase outcomes.
+experiment_assignments,experiment_group,Assigned checkout experience: control or treatment.,Raw data may contain duplicate or conflicting assignments.
+experiment_assignments,assignment_timestamp,Timestamp of experiment assignment.,Valid exposure should occur after assignment.
+events,event_name,"Behavioral event such as checkout_view, payment_attempt, payment_failure, checkout_error, or purchase.",One row per raw event record.
+events,event_timestamp,Timestamp when the behavioral event occurred.,Used for ordering the funnel and attribution-window checks.
+events,device,Device associated with the event.,Primary segmentation will use device at first valid exposure.
+events,traffic_source,Traffic source associated with the event session.,Primary segmentation will use source at first valid exposure.
+orders,order_amount,Gross amount associated with the successful purchase order.,One row per order.
+orders,order_status,"Observed order outcome: completed, refunded, or cancelled.",Requires sufficient post-purchase follow-up.
