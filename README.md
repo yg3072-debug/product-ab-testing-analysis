@@ -15,20 +15,22 @@ experiment design → data simulation → SQL validation → funnel analysis
 
 Headline result: the simplified checkout increased purchase conversion from **27.47% to 29.63%** (**+2.16 percentage points**, two-sided `p = 0.0030`). The final recommendation is **Need more data before full launch** because guardrail confidence intervals do not yet establish safety.
 
-- [Open the complete Week 2 case study](week2_checkout_experiment/README.md)
+- [View the interactive executive dashboard](https://public.tableau.com/views/checkoutsimplificationABTest/ExecutiveDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+- [Open the dashboard portfolio repository](https://github.com/yg3072-debug/analytics-dashboard-portfolio)
+- [Open the complete checkout experiment case study](week2_checkout_experiment/README.md)
 - [Read the one-page experiment readout](week2_checkout_experiment/experiment_readout.md)
-- [Review the Tableau analysis workbook](week2_checkout_experiment/tableau/README.md)
+- [Review the Tableau analysis documentation](week2_checkout_experiment/tableau/README.md)
 
-The foundational Week 1 analysis is structured around four main areas:
+The foundational analysis is structured around four main areas:
 
 1. Product metrics
 2. Funnel analysis
 3. Retention and cohort analysis
 4. A/B test evaluation
 
-## Week 1 Dataset
+## Foundational Dataset
 
-The foundational Week 1 analysis uses three CSV files:
+The foundational analysis uses three CSV files:
 
 - `users.csv`: user-level attributes such as user ID, device, country, and signup information
 - `events.csv`: event-level user behavior data such as product views, add-to-cart, checkout, purchase, event date, and traffic source
@@ -103,7 +105,8 @@ The analysis includes:
 This project demonstrates the full analytics workflow:
 
 ```text
-business question → metric definition → data grain → pandas implementation → statistical interpretation → business recommendation
+business question → metric definition → data grain → implementation
+→ statistical interpretation → business recommendation
 ```
 
 Core analytical standards applied throughout the project include:
@@ -118,9 +121,9 @@ Core analytical standards applied throughout the project include:
 
 - Python
 - pandas
-- numpy
-- matplotlib
-- statsmodels
+- NumPy
+- Matplotlib
+- Statsmodels
 - SciPy
 - SQLite
 - Jupyter Notebook
@@ -128,4 +131,4 @@ Core analytical standards applied throughout the project include:
 
 ## Portfolio Relevance
 
-This project is designed to demonstrate practical product analytics skills for U.S. data roles, including Product Analyst, Data Analyst, Growth Analyst, BI Analyst, and Analytics Consultant positions.
+This project demonstrates practical product analytics skills for Product Analyst, Data Analyst, Growth Analyst, BI Analyst, and Analytics Consultant roles.

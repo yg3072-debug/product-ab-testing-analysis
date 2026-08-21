@@ -1,4 +1,4 @@
-# Week 2 — Checkout A/B Testing Case Study
+# Checkout A/B Testing Case Study
 
 ## Project Overview
 
@@ -20,20 +20,25 @@ The treatment increased purchase conversion from **27.47% to 29.63%**, an absolu
 
 Retained revenue per exposed user increased from **$24.52 to $26.33**, but checkout-error and refund/cancellation intervals did not rule out meaningful harm. No segment dimension showed confirmed treatment-effect heterogeneity after correction.
 
-**Decision: Need more data before full launch.** See the [one-page experiment readout](experiment_readout.md).
+**Decision: Need more data before full launch.**
+
+- [View the interactive executive dashboard](https://public.tableau.com/views/checkoutsimplificationABTest/ExecutiveDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+- [Open the dashboard portfolio repository](https://github.com/yg3072-debug/analytics-dashboard-portfolio)
+- [Read the one-page experiment readout](experiment_readout.md)
 
 ## Analysis Workflow
 
-| Day | Stage | Deliverable |
-|---|---|---|
-| 8 | Experiment design | [`01_experiment_design.ipynb`](notebooks/01_experiment_design.ipynb) |
-| 9 | Data preparation and simulation | [`02_data_preparation.ipynb`](notebooks/02_data_preparation.ipynb) |
-| 10 | SQL validation and balance | [`03_sql_validation.ipynb`](notebooks/03_sql_validation.ipynb), [`01_experiment_validation.sql`](sql/01_experiment_validation.sql) |
-| 11 | Ordered funnel analysis | [`04_funnel_analysis.ipynb`](notebooks/04_funnel_analysis.ipynb), [`02_funnel_analysis.sql`](sql/02_funnel_analysis.sql) |
-| 12 | Primary statistical inference | [`05_statistical_inference.ipynb`](notebooks/05_statistical_inference.ipynb) |
-| 13 | Exploratory segment analysis | [`06_segment_analysis.ipynb`](notebooks/06_segment_analysis.ipynb) |
-| 14 | Secondary metrics, guardrails, and decision | [`07_secondary_guardrail_analysis.ipynb`](notebooks/07_secondary_guardrail_analysis.ipynb), [experiment readout](experiment_readout.md) |
-| 15 | Tableau-ready data layer and foundational dashboard views | [`08_tableau_data_preparation.ipynb`](notebooks/08_tableau_data_preparation.ipynb), [`checkout_ab_test_dashboard.twbx`](tableau/checkout_ab_test_dashboard.twbx), [Tableau documentation](tableau/README.md) |
+| Stage | Deliverable |
+|---|---|
+| Experiment design | [`01_experiment_design.ipynb`](notebooks/01_experiment_design.ipynb) |
+| Data preparation and simulation | [`02_data_preparation.ipynb`](notebooks/02_data_preparation.ipynb) |
+| SQL validation and balance | [`03_sql_validation.ipynb`](notebooks/03_sql_validation.ipynb), [`01_experiment_validation.sql`](sql/01_experiment_validation.sql) |
+| Ordered funnel analysis | [`04_funnel_analysis.ipynb`](notebooks/04_funnel_analysis.ipynb), [`02_funnel_analysis.sql`](sql/02_funnel_analysis.sql) |
+| Primary statistical inference | [`05_statistical_inference.ipynb`](notebooks/05_statistical_inference.ipynb) |
+| Exploratory segment analysis | [`06_segment_analysis.ipynb`](notebooks/06_segment_analysis.ipynb) |
+| Secondary metrics, guardrails, and decision | [`07_secondary_guardrail_analysis.ipynb`](notebooks/07_secondary_guardrail_analysis.ipynb), [experiment readout](experiment_readout.md) |
+| Tableau-ready data layer and analysis views | [`08_tableau_data_preparation.ipynb`](notebooks/08_tableau_data_preparation.ipynb), [`checkout_ab_test_dashboard.twbx`](tableau/checkout_ab_test_dashboard.twbx), [Tableau documentation](tableau/README.md) |
+| Executive presentation | [Interactive dashboard](https://public.tableau.com/views/checkoutsimplificationABTest/ExecutiveDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link), [dashboard portfolio](https://github.com/yg3072-debug/analytics-dashboard-portfolio) |
 
 The workflow is designed to be read as:
 
@@ -61,7 +66,7 @@ Run the notebooks in numerical order. Their path-resolution logic supports execu
 
 The notebooks rebuild their analysis tables from the versioned CSV files and use an in-memory SQLite database, so no generated database file is required.
 
-The Day 15 notebook exports a validated user-level Tableau source and a separate funnel summary to `data/processed`. The two files are intentionally kept at different grains rather than joined. The Tableau documentation defines the business objective, analytical scope, dashboard views, metrics, findings, and product decision; the final dashboard will be assembled on Day 16.
+The Tableau preparation notebook exports a validated user-level source and a separate funnel summary to `data/processed`. The files are intentionally kept at different grains rather than joined. The final executive dashboard is maintained in the separate presentation repository, while the analysis definitions and reproducible data layer remain here.
 
 ## Tools
 
