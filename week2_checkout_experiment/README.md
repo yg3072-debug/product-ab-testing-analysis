@@ -33,6 +33,7 @@ Retained revenue per exposed user increased from **$24.52 to $26.33**, but check
 | 12 | Primary statistical inference | [`05_statistical_inference.ipynb`](notebooks/05_statistical_inference.ipynb) |
 | 13 | Exploratory segment analysis | [`06_segment_analysis.ipynb`](notebooks/06_segment_analysis.ipynb) |
 | 14 | Secondary metrics, guardrails, and decision | [`07_secondary_guardrail_analysis.ipynb`](notebooks/07_secondary_guardrail_analysis.ipynb), [experiment readout](experiment_readout.md) |
+| 15 | Tableau-ready data layer and foundational dashboard views | [`08_tableau_data_preparation.ipynb`](notebooks/08_tableau_data_preparation.ipynb), [`checkout_ab_test_dashboard.twbx`](tableau/checkout_ab_test_dashboard.twbx), [Tableau documentation](tableau/README.md) |
 
 The workflow is designed to be read as:
 
@@ -60,6 +61,8 @@ Run the notebooks in numerical order. Their path-resolution logic supports execu
 
 The notebooks rebuild their analysis tables from the versioned CSV files and use an in-memory SQLite database, so no generated database file is required.
 
+The Day 15 notebook exports a validated user-level Tableau source and a separate funnel summary to `data/processed`. The two files are intentionally kept at different grains rather than joined. The Tableau documentation defines the business objective, analytical scope, dashboard views, metrics, findings, and product decision; the final dashboard will be assembled on Day 16.
+
 ## Tools
 
 - Python and pandas
@@ -67,3 +70,4 @@ The notebooks rebuild their analysis tables from the versioned CSV files and use
 - SciPy and standard statistical formulas
 - Matplotlib
 - Jupyter Notebook
+- Tableau Public

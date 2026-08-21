@@ -1,0 +1,33 @@
+table_name,column_name,description,grain_note
+tableau_user_metrics,user_id,Unique mature exposed user identifier,one row per mature exposed user
+tableau_user_metrics,experiment_group,Persistent assigned variant: control or treatment,one row per mature exposed user
+tableau_user_metrics,assignment_timestamp,Canonical experiment assignment time,one row per mature exposed user
+tableau_user_metrics,exposure_timestamp,First valid checkout view after assignment,one row per mature exposed user
+tableau_user_metrics,exposure_date,Calendar date of first valid exposure,one row per mature exposed user
+tableau_user_metrics,device_at_exposure,Device recorded at first valid exposure,one row per mature exposed user
+tableau_user_metrics,traffic_source_at_exposure,Traffic source recorded at first valid exposure,one row per mature exposed user
+tableau_user_metrics,user_type,New or returning user status,one row per mature exposed user
+tableau_user_metrics,payment_attempt_timestamp,First qualifying payment attempt within 24 hours,one row per mature exposed user
+tableau_user_metrics,purchase_timestamp,First attributed purchase after payment attempt and within 24 hours,one row per mature exposed user
+tableau_user_metrics,reached_checkout_view,1 for every included exposed user,one row per mature exposed user
+tableau_user_metrics,reached_payment_attempt,1 if user reached a qualifying payment attempt,one row per mature exposed user
+tableau_user_metrics,reached_purchase,1 if user completed an attributed purchase,one row per mature exposed user
+tableau_user_metrics,had_payment_failure,1 if an attempted user recorded a payment failure in the 24-hour window,one row per mature exposed user
+tableau_user_metrics,had_checkout_error,1 if user recorded an error in the first valid exposure session,one row per mature exposed user
+tableau_user_metrics,payment_succeeded,1 minus payment failure for payment-attempt users; null otherwise,one row per mature exposed user
+tableau_user_metrics,completion_minutes,Minutes from exposure to attributed purchase; null for non-purchasers,one row per mature exposed user
+tableau_user_metrics,order_id,Attributed order identifier; null for non-purchasers,one row per mature exposed user
+tableau_user_metrics,order_amount,Gross attributed order value; null for non-purchasers,one row per mature exposed user
+tableau_user_metrics,order_status,Final order status after seven-day follow-up,one row per mature exposed user
+tableau_user_metrics,mature_order_followup,1 when a purchaser has complete seven-day status follow-up,one row per mature exposed user
+tableau_user_metrics,retained_revenue,"Completed-order revenue, otherwise zero",one row per mature exposed user
+tableau_user_metrics,refunded_or_cancelled,1 for an attributed refunded or cancelled order,one row per mature exposed user
+tableau_funnel_summary,experiment_group,Control or treatment variant,one row per experiment group and funnel step
+tableau_funnel_summary,step_order,Numeric funnel sequence,one row per experiment group and funnel step
+tableau_funnel_summary,funnel_step,Machine-readable funnel step,one row per experiment group and funnel step
+tableau_funnel_summary,funnel_step_label,Display label with stable sort prefix,one row per experiment group and funnel step
+tableau_funnel_summary,step_users,Users reaching the cumulative funnel step,one row per experiment group and funnel step
+tableau_funnel_summary,previous_step_users,Users reaching the immediately prior step,one row per experiment group and funnel step
+tableau_funnel_summary,step_to_step_conversion,Step users divided by previous-step users,one row per experiment group and funnel step
+tableau_funnel_summary,conversion_from_exposure,Step users divided by exposed users,one row per experiment group and funnel step
+tableau_funnel_summary,drop_off_from_previous,Previous-step users minus step users,one row per experiment group and funnel step

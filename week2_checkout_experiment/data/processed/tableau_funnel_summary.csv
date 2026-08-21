@@ -1,0 +1,7 @@
+experiment_group,step_order,funnel_step,funnel_step_label,step_users,previous_step_users,step_to_step_conversion,conversion_from_exposure,drop_off_from_previous
+control,1,checkout_view,1. Checkout View,7754,7754,1.0,1.0,0
+control,2,payment_attempt,2. Payment Attempt,5844,7754,0.7537,0.7537,1910
+control,3,purchase,3. Purchase,2130,5844,0.3645,0.2747,3714
+treatment,1,checkout_view,1. Checkout View,7713,7713,1.0,1.0,0
+treatment,2,payment_attempt,2. Payment Attempt,6004,7713,0.7784,0.7784,1709
+treatment,3,purchase,3. Purchase,2285,6004,0.3806,0.2963,3719

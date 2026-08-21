@@ -17,6 +17,7 @@ Headline result: the simplified checkout increased purchase conversion from **27
 
 - [Open the complete Week 2 case study](week2_checkout_experiment/README.md)
 - [Read the one-page experiment readout](week2_checkout_experiment/experiment_readout.md)
+- [Review the Tableau analysis workbook](week2_checkout_experiment/tableau/README.md)
 
 The foundational Week 1 analysis is structured around four main areas:
 
@@ -97,7 +98,7 @@ The analysis includes:
 - Two-proportion z-test
 - Experiment readout
 
-## Key Learnings
+## Analytical Principles
 
 This project demonstrates the full analytics workflow:
 
@@ -105,7 +106,7 @@ This project demonstrates the full analytics workflow:
 business question → metric definition → data grain → pandas implementation → statistical interpretation → business recommendation
 ```
 
-Important analytical lessons include:
+Core analytical standards applied throughout the project include:
 
 - Conversion rates must have clearly defined numerator and denominator.
 - Funnel steps should be cumulative when measuring true user progression.
@@ -123,6 +124,7 @@ Important analytical lessons include:
 - SciPy
 - SQLite
 - Jupyter Notebook
+- Tableau Public
 
 ## Portfolio Relevance
 
