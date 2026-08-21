@@ -19,6 +19,7 @@ Headline result: the simplified checkout increased purchase conversion from **27
 - [Download the Power BI executive report](https://github.com/yg3072-debug/analytics-dashboard-portfolio/blob/main/powerbi/checkout_ab_test_executive_dashboard.pbix)
 - [Open the dashboard portfolio repository](https://github.com/yg3072-debug/analytics-dashboard-portfolio)
 - [Open the complete checkout experiment case study](week2_checkout_experiment/README.md)
+- [Review the reproducible SQL analytics layer](week2_checkout_experiment/sql/README.md)
 - [Read the one-page experiment readout](week2_checkout_experiment/experiment_readout.md)
 - [Review the Tableau analysis documentation](week2_checkout_experiment/tableau/README.md)
 

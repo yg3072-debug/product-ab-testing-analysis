@@ -35,6 +35,7 @@ Retained revenue per exposed user increased from **$24.52 to $26.33**, but check
 | Data preparation and simulation | [`02_data_preparation.ipynb`](notebooks/02_data_preparation.ipynb) |
 | SQL validation and balance | [`03_sql_validation.ipynb`](notebooks/03_sql_validation.ipynb), [`01_experiment_validation.sql`](sql/01_experiment_validation.sql) |
 | Ordered funnel analysis | [`04_funnel_analysis.ipynb`](notebooks/04_funnel_analysis.ipynb), [`02_funnel_analysis.sql`](sql/02_funnel_analysis.sql) |
+| Reproducible SQL outcome layer | [`03_experiment_outcome_metrics.sql`](sql/03_experiment_outcome_metrics.sql), [`04_experiment_quality_assertions.sql`](sql/04_experiment_quality_assertions.sql), [SQL documentation](sql/README.md) |
 | Primary statistical inference | [`05_statistical_inference.ipynb`](notebooks/05_statistical_inference.ipynb) |
 | Exploratory segment analysis | [`06_segment_analysis.ipynb`](notebooks/06_segment_analysis.ipynb) |
 | Secondary metrics, guardrails, and decision | [`07_secondary_guardrail_analysis.ipynb`](notebooks/07_secondary_guardrail_analysis.ipynb), [experiment readout](experiment_readout.md) |
@@ -67,6 +68,12 @@ Run the notebooks in numerical order. Their path-resolution logic supports execu
 - `week2_checkout_experiment/notebooks`.
 
 The notebooks rebuild their analysis tables from the versioned CSV files and use an in-memory SQLite database, so no generated database file is required.
+
+The standalone SQL runner rebuilds the canonical experiment population and validates funnel, conversion, device, retained-revenue, and guardrail outputs:
+
+```bash
+python week2_checkout_experiment/scripts/run_sql_case_study.py
+```
 
 The Tableau preparation notebook exports a validated user-level source and a separate funnel summary to `data/processed`. The files are intentionally kept at different grains rather than joined. The final executive dashboard is maintained in the separate presentation repository, while the analysis definitions and reproducible data layer remain here.
 
