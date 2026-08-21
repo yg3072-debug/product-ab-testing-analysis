@@ -1,0 +1,201 @@
+createOrReplace
+
+	ref table FactExperimentUser
+
+		/// Unique mature users with a valid checkout exposure and complete 24-hour observation window.
+		measure 'Exposed Users' = DISTINCTCOUNT('FactExperimentUser'[user_id])
+			formatString: #,##0
+			displayFolder: 01 Primary Outcome
+
+		/// Users completing an attributed purchase within 24 hours of exposure.
+		measure Purchasers = SUM('FactExperimentUser'[reached_purchase])
+			formatString: #,##0
+			isHidden
+			displayFolder: 05 Supporting
+
+		/// Attributed purchasers divided by mature exposed users.
+		measure 'Purchase Conversion' = DIVIDE('FactExperimentUser'[Purchasers], 'FactExperimentUser'[Exposed Users])
+			formatString: 0.00%
+			displayFolder: 01 Primary Outcome
+
+		measure 'Control Users' =
+				CALCULATE(
+					'FactExperimentUser'[Exposed Users],
+					REMOVEFILTERS('DimVariant'),
+					'DimVariant'[experiment_group] = "control"
+				)
+			formatString: #,##0
+			displayFolder: 01 Primary Outcome
+
+		measure 'Treatment Users' =
+				CALCULATE(
+					'FactExperimentUser'[Exposed Users],
+					REMOVEFILTERS('DimVariant'),
+					'DimVariant'[experiment_group] = "treatment"
+				)
+			formatString: #,##0
+			displayFolder: 01 Primary Outcome
+
+		measure 'Control Purchasers' =
+				CALCULATE(
+					'FactExperimentUser'[Purchasers],
+					REMOVEFILTERS('DimVariant'),
+					'DimVariant'[experiment_group] = "control"
+				)
+			formatString: #,##0
+			isHidden
+			displayFolder: 05 Supporting
+
+		measure 'Treatment Purchasers' =
+				CALCULATE(
+					'FactExperimentUser'[Purchasers],
+					REMOVEFILTERS('DimVariant'),
+					'DimVariant'[experiment_group] = "treatment"
+				)
+			formatString: #,##0
+			isHidden
+			displayFolder: 05 Supporting
+
+		measure 'Control Conversion' = DIVIDE('FactExperimentUser'[Control Purchasers], 'FactExperimentUser'[Control Users])
+			formatString: 0.00%
+			displayFolder: 01 Primary Outcome
+
+		measure 'Treatment Conversion' = DIVIDE('FactExperimentUser'[Treatment Purchasers], 'FactExperimentUser'[Treatment Users])
+			formatString: 0.00%
+			displayFolder: 01 Primary Outcome
+
+		/// Treatment conversion minus control conversion.
+		measure 'Absolute Lift' = 'FactExperimentUser'[Treatment Conversion] - 'FactExperimentUser'[Control Conversion]
+			formatString: +0.00%;-0.00%;0.00%
+			displayFolder: 01 Primary Outcome
+
+		/// Display label for the absolute conversion lift in percentage points.
+		measure 'Absolute Lift Display' =
+				FORMAT(
+					'FactExperimentUser'[Absolute Lift] * 100,
+					"+0.00;-0.00;0.00"
+				) & " pp"
+			displayFolder: 01 Primary Outcome
+
+		/// Absolute lift divided by control conversion.
+		measure 'Relative Lift' = DIVIDE('FactExperimentUser'[Absolute Lift], 'FactExperimentUser'[Control Conversion])
+			formatString: +0.00%;-0.00%;0.00%
+			displayFolder: 01 Primary Outcome
+
+		measure 'Pooled Conversion' =
+				DIVIDE(
+					'FactExperimentUser'[Control Purchasers] + 'FactExperimentUser'[Treatment Purchasers],
+					'FactExperimentUser'[Control Users] + 'FactExperimentUser'[Treatment Users]
+				)
+			formatString: 0.00%
+			isHidden
+			displayFolder: 05 Supporting
+
+		/// Z statistic from the pre-specified pooled two-proportion null test.
+		measure 'Z Statistic' =
+				VAR PooledRate = 'FactExperimentUser'[Pooled Conversion]
+				VAR NullStandardError =
+					SQRT(
+						PooledRate * (1 - PooledRate)
+							* (DIVIDE(1, 'FactExperimentUser'[Control Users]) + DIVIDE(1, 'FactExperimentUser'[Treatment Users]))
+					)
+				RETURN
+					DIVIDE('FactExperimentUser'[Absolute Lift], NullStandardError)
+			formatString: 0.000
+			isHidden
+			displayFolder: 05 Supporting
+
+		/// Two-sided p-value for the primary two-proportion z-test.
+		measure 'Two-Sided P-Value' = 2 * (1 - NORM.S.DIST(ABS('FactExperimentUser'[Z Statistic]), TRUE()))
+			formatString: 0.0000
+			displayFolder: 02 Statistical Inference
+
+		/// Unpooled standard error for the treatment-minus-control risk difference.
+		measure 'Lift Standard Error' =
+				SQRT(
+					DIVIDE(
+						'FactExperimentUser'[Control Conversion] * (1 - 'FactExperimentUser'[Control Conversion]),
+						'FactExperimentUser'[Control Users]
+					)
+						+ DIVIDE(
+							'FactExperimentUser'[Treatment Conversion] * (1 - 'FactExperimentUser'[Treatment Conversion]),
+							'FactExperimentUser'[Treatment Users]
+						)
+				)
+			formatString: 0.0000%
+			isHidden
+			displayFolder: 05 Supporting
+
+		measure 'Lift CI Lower' = 'FactExperimentUser'[Absolute Lift] - NORM.S.INV(0.975) * 'FactExperimentUser'[Lift Standard Error]
+			formatString: +0.00%;-0.00%;0.00%
+			isHidden
+			displayFolder: 05 Supporting
+
+		measure 'Lift CI Upper' = 'FactExperimentUser'[Absolute Lift] + NORM.S.INV(0.975) * 'FactExperimentUser'[Lift Standard Error]
+			formatString: +0.00%;-0.00%;0.00%
+			isHidden
+			displayFolder: 05 Supporting
+
+		/// Display label for the 95% confidence interval in percentage points.
+		measure 'Lift CI Label' =
+				VAR LowerPP = 'FactExperimentUser'[Lift CI Lower] * 100
+				VAR UpperPP = 'FactExperimentUser'[Lift CI Upper] * 100
+				RETURN
+					FORMAT(LowerPP, "+0.00;-0.00;0.00")
+						& " to "
+						& FORMAT(UpperPP, "+0.00;-0.00;0.00")
+						& " pp"
+			displayFolder: 02 Statistical Inference
+
+		/// Completed-order revenue averaged across all mature exposed users.
+		measure 'Retained Revenue per Exposed User' = AVERAGE('FactExperimentUser'[retained_revenue])
+			formatString: $#,##0.00
+			displayFolder: 03 Commercial Value
+
+		measure 'Control Retained Revenue per Exposed User' =
+				CALCULATE(
+					'FactExperimentUser'[Retained Revenue per Exposed User],
+					REMOVEFILTERS('DimVariant'),
+					'DimVariant'[experiment_group] = "control"
+				)
+			formatString: $#,##0.00
+			displayFolder: 03 Commercial Value
+
+		measure 'Treatment Retained Revenue per Exposed User' =
+				CALCULATE(
+					'FactExperimentUser'[Retained Revenue per Exposed User],
+					REMOVEFILTERS('DimVariant'),
+					'DimVariant'[experiment_group] = "treatment"
+				)
+			formatString: $#,##0.00
+			displayFolder: 03 Commercial Value
+
+		/// Payment-attempt users with a failure divided by qualifying payment-attempt users.
+		measure 'Payment Failure Rate' =
+				DIVIDE(
+					SUM('FactExperimentUser'[had_payment_failure]),
+					SUM('FactExperimentUser'[reached_payment_attempt])
+				)
+			formatString: 0.00%
+			displayFolder: 04 Guardrails
+
+		/// Users with an error in the first valid exposure session divided by mature exposed users.
+		measure 'Checkout Error Rate' = AVERAGE('FactExperimentUser'[had_checkout_error])
+			formatString: 0.00%
+			displayFolder: 04 Guardrails
+
+		/// Refunded or cancelled attributed orders divided by purchasers with mature seven-day follow-up.
+		measure 'Refund / Cancellation Rate' =
+				DIVIDE(
+					SUM('FactExperimentUser'[refunded_or_cancelled]),
+					SUM('FactExperimentUser'[mature_order_followup])
+				)
+			formatString: 0.00%
+			displayFolder: 04 Guardrails
+
+	ref table FactFunnel
+
+		/// Users reaching an ordered cumulative funnel step.
+		measure 'Funnel Users' = SUM('FactFunnel'[step_users])
+			formatString: #,##0
+			displayFolder: 01 Funnel

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/powerbi-desktop-samples/main/Report%20Theme%20JSON%20Schema/reportThemeSchema-2.149.json",
+  "name": "Checkout Experiment Executive",
+  "dataColors": [
+    "#6B7280",
+    "#2563EB",
+    "#F59E0B",
+    "#DC2626",
+    "#059669",
+    "#8B5CF6"
+  ],
+  "background": "#F7F8FA",
+  "foreground": "#111827",
+  "tableAccent": "#2563EB",
+  "good": "#059669",
+  "neutral": "#F59E0B",
+  "bad": "#DC2626",
+  "maximum": "#2563EB",
+  "center": "#F3F4F6",
+  "minimum": "#6B7280",
+  "textClasses": {
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 28,
+      "color": "#111827"
+    },
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 12,
+      "color": "#111827"
+    },
+    "header": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 11,
+      "color": "#374151"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 10,
+      "color": "#4B5563"
+    }
+  }
+}

@@ -23,6 +23,7 @@ Retained revenue per exposed user increased from **$24.52 to $26.33**, but check
 **Decision: Need more data before full launch.**
 
 - [View the interactive executive dashboard](https://public.tableau.com/views/checkoutsimplificationABTest/ExecutiveDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+- [Download the Power BI executive report](https://github.com/yg3072-debug/analytics-dashboard-portfolio/blob/main/powerbi/checkout_ab_test_executive_dashboard.pbix)
 - [Open the dashboard portfolio repository](https://github.com/yg3072-debug/analytics-dashboard-portfolio)
 - [Read the one-page experiment readout](experiment_readout.md)
 
@@ -38,7 +39,8 @@ Retained revenue per exposed user increased from **$24.52 to $26.33**, but check
 | Exploratory segment analysis | [`06_segment_analysis.ipynb`](notebooks/06_segment_analysis.ipynb) |
 | Secondary metrics, guardrails, and decision | [`07_secondary_guardrail_analysis.ipynb`](notebooks/07_secondary_guardrail_analysis.ipynb), [experiment readout](experiment_readout.md) |
 | Tableau-ready data layer and analysis views | [`08_tableau_data_preparation.ipynb`](notebooks/08_tableau_data_preparation.ipynb), [`checkout_ab_test_dashboard.twbx`](tableau/checkout_ab_test_dashboard.twbx), [Tableau documentation](tableau/README.md) |
-| Executive presentation | [Interactive dashboard](https://public.tableau.com/views/checkoutsimplificationABTest/ExecutiveDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link), [dashboard portfolio](https://github.com/yg3072-debug/analytics-dashboard-portfolio) |
+| Power BI semantic and reporting layer | [`powerbi/`](powerbi/), [Power BI documentation](powerbi/README.md) |
+| Executive presentation | [Interactive Tableau dashboard](https://public.tableau.com/views/checkoutsimplificationABTest/ExecutiveDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link), [Power BI report](https://github.com/yg3072-debug/analytics-dashboard-portfolio/blob/main/powerbi/checkout_ab_test_executive_dashboard.pbix), [dashboard portfolio](https://github.com/yg3072-debug/analytics-dashboard-portfolio) |
 
 The workflow is designed to be read as:
 
@@ -76,3 +78,4 @@ The Tableau preparation notebook exports a validated user-level source and a sep
 - Matplotlib
 - Jupyter Notebook
 - Tableau Public
+- Power BI Desktop and DAX

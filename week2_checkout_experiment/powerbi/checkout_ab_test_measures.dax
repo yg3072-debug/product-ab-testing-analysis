@@ -1,0 +1,156 @@
+// Checkout A/B Test — Power BI semantic model
+// Model table names used below:
+//   FactExperimentUser, FactFunnel, DimVariant
+
+// Calculated table: persistent experiment variant dimension.
+DimVariant =
+DATATABLE(
+    "experiment_group", STRING,
+    "variant_label", STRING,
+    "sort_order", INTEGER,
+    {
+        { "control", "Control", 1 },
+        { "treatment", "Treatment", 2 }
+    }
+)
+
+// Population and primary outcome measures.
+Exposed Users =
+DISTINCTCOUNT(FactExperimentUser[user_id])
+
+Purchasers =
+SUM(FactExperimentUser[reached_purchase])
+
+Purchase Conversion =
+DIVIDE([Purchasers], [Exposed Users])
+
+Control Users =
+CALCULATE(
+    [Exposed Users],
+    REMOVEFILTERS(DimVariant),
+    DimVariant[experiment_group] = "control"
+)
+
+Treatment Users =
+CALCULATE(
+    [Exposed Users],
+    REMOVEFILTERS(DimVariant),
+    DimVariant[experiment_group] = "treatment"
+)
+
+Control Purchasers =
+CALCULATE(
+    [Purchasers],
+    REMOVEFILTERS(DimVariant),
+    DimVariant[experiment_group] = "control"
+)
+
+Treatment Purchasers =
+CALCULATE(
+    [Purchasers],
+    REMOVEFILTERS(DimVariant),
+    DimVariant[experiment_group] = "treatment"
+)
+
+Control Conversion =
+DIVIDE([Control Purchasers], [Control Users])
+
+Treatment Conversion =
+DIVIDE([Treatment Purchasers], [Treatment Users])
+
+Absolute Lift =
+[Treatment Conversion] - [Control Conversion]
+
+Absolute Lift Display =
+FORMAT(
+    [Absolute Lift] * 100,
+    "+0.00;-0.00;0.00"
+) & " pp"
+
+Relative Lift =
+DIVIDE([Absolute Lift], [Control Conversion])
+
+// Pre-specified two-sided two-proportion z-test.
+Pooled Conversion =
+DIVIDE(
+    [Control Purchasers] + [Treatment Purchasers],
+    [Control Users] + [Treatment Users]
+)
+
+Z Statistic =
+VAR PooledRate = [Pooled Conversion]
+VAR NullStandardError =
+    SQRT(
+        PooledRate * (1 - PooledRate)
+            * (DIVIDE(1, [Control Users]) + DIVIDE(1, [Treatment Users]))
+    )
+RETURN
+    DIVIDE([Absolute Lift], NullStandardError)
+
+Two-Sided P-Value =
+2 * (1 - NORM.S.DIST(ABS([Z Statistic]), TRUE()))
+
+Lift Standard Error =
+SQRT(
+    DIVIDE(
+        [Control Conversion] * (1 - [Control Conversion]),
+        [Control Users]
+    )
+        + DIVIDE(
+            [Treatment Conversion] * (1 - [Treatment Conversion]),
+            [Treatment Users]
+        )
+)
+
+Lift CI Lower =
+[Absolute Lift] - NORM.S.INV(0.975) * [Lift Standard Error]
+
+Lift CI Upper =
+[Absolute Lift] + NORM.S.INV(0.975) * [Lift Standard Error]
+
+Lift CI Label =
+VAR LowerPP = [Lift CI Lower] * 100
+VAR UpperPP = [Lift CI Upper] * 100
+RETURN
+    FORMAT(LowerPP, "+0.00;-0.00;0.00")
+        & " to "
+        & FORMAT(UpperPP, "+0.00;-0.00;0.00")
+        & " pp"
+
+// Commercial value measure.
+Retained Revenue per Exposed User =
+AVERAGE(FactExperimentUser[retained_revenue])
+
+Control Retained Revenue per Exposed User =
+CALCULATE(
+    [Retained Revenue per Exposed User],
+    REMOVEFILTERS(DimVariant),
+    DimVariant[experiment_group] = "control"
+)
+
+Treatment Retained Revenue per Exposed User =
+CALCULATE(
+    [Retained Revenue per Exposed User],
+    REMOVEFILTERS(DimVariant),
+    DimVariant[experiment_group] = "treatment"
+)
+
+// Guardrail measures preserve each metric's required denominator.
+Payment Failure Rate =
+DIVIDE(
+    SUM(FactExperimentUser[had_payment_failure]),
+    SUM(FactExperimentUser[reached_payment_attempt])
+)
+
+Checkout Error Rate =
+AVERAGE(FactExperimentUser[had_checkout_error])
+
+Refund / Cancellation Rate =
+DIVIDE(
+    SUM(FactExperimentUser[refunded_or_cancelled]),
+    SUM(FactExperimentUser[mature_order_followup])
+)
+
+// Ordered funnel measure.
+Funnel Users =
+SUM(FactFunnel[step_users])

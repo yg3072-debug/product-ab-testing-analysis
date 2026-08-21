@@ -1,0 +1,180 @@
+DEFINE
+    /// Unique mature users with a valid checkout exposure and complete 24-hour observation window.
+    MEASURE 'FactExperimentUser'[Exposed Users] =
+        DISTINCTCOUNT('FactExperimentUser'[user_id])
+
+    /// Users completing an attributed purchase within 24 hours of exposure.
+    MEASURE 'FactExperimentUser'[Purchasers] =
+        SUM('FactExperimentUser'[reached_purchase])
+
+    /// Attributed purchasers divided by mature exposed users.
+    MEASURE 'FactExperimentUser'[Purchase Conversion] =
+        DIVIDE([Purchasers], [Exposed Users])
+
+    MEASURE 'FactExperimentUser'[Control Users] =
+        CALCULATE(
+            [Exposed Users],
+            REMOVEFILTERS('DimVariant'),
+            'DimVariant'[experiment_group] = "control"
+        )
+
+    MEASURE 'FactExperimentUser'[Treatment Users] =
+        CALCULATE(
+            [Exposed Users],
+            REMOVEFILTERS('DimVariant'),
+            'DimVariant'[experiment_group] = "treatment"
+        )
+
+    MEASURE 'FactExperimentUser'[Control Purchasers] =
+        CALCULATE(
+            [Purchasers],
+            REMOVEFILTERS('DimVariant'),
+            'DimVariant'[experiment_group] = "control"
+        )
+
+    MEASURE 'FactExperimentUser'[Treatment Purchasers] =
+        CALCULATE(
+            [Purchasers],
+            REMOVEFILTERS('DimVariant'),
+            'DimVariant'[experiment_group] = "treatment"
+        )
+
+    MEASURE 'FactExperimentUser'[Control Conversion] =
+        DIVIDE([Control Purchasers], [Control Users])
+
+    MEASURE 'FactExperimentUser'[Treatment Conversion] =
+        DIVIDE([Treatment Purchasers], [Treatment Users])
+
+    /// Treatment conversion minus control conversion.
+    MEASURE 'FactExperimentUser'[Absolute Lift] =
+        [Treatment Conversion] - [Control Conversion]
+
+    /// Display label for the absolute conversion lift in percentage points.
+    MEASURE 'FactExperimentUser'[Absolute Lift Display] =
+        FORMAT(
+            [Absolute Lift] * 100,
+            "+0.00;-0.00;0.00"
+        ) & " pp"
+
+    /// Absolute lift divided by control conversion.
+    MEASURE 'FactExperimentUser'[Relative Lift] =
+        DIVIDE([Absolute Lift], [Control Conversion])
+
+    MEASURE 'FactExperimentUser'[Pooled Conversion] =
+        DIVIDE(
+            [Control Purchasers] + [Treatment Purchasers],
+            [Control Users] + [Treatment Users]
+        )
+
+    /// Z statistic from the pre-specified pooled two-proportion null test.
+    MEASURE 'FactExperimentUser'[Z Statistic] =
+        VAR PooledRate = [Pooled Conversion]
+        VAR NullStandardError =
+            SQRT(
+                PooledRate * (1 - PooledRate)
+                    * (DIVIDE(1, [Control Users]) + DIVIDE(1, [Treatment Users]))
+            )
+        RETURN
+            DIVIDE([Absolute Lift], NullStandardError)
+
+    /// Two-sided p-value for the primary two-proportion z-test.
+    MEASURE 'FactExperimentUser'[Two-Sided P-Value] =
+        2 * (1 - NORM.S.DIST(ABS([Z Statistic]), TRUE()))
+
+    /// Unpooled standard error for the treatment-minus-control risk difference.
+    MEASURE 'FactExperimentUser'[Lift Standard Error] =
+        SQRT(
+            DIVIDE(
+                [Control Conversion] * (1 - [Control Conversion]),
+                [Control Users]
+            )
+                + DIVIDE(
+                    [Treatment Conversion] * (1 - [Treatment Conversion]),
+                    [Treatment Users]
+                )
+        )
+
+    MEASURE 'FactExperimentUser'[Lift CI Lower] =
+        [Absolute Lift] - NORM.S.INV(0.975) * [Lift Standard Error]
+
+    MEASURE 'FactExperimentUser'[Lift CI Upper] =
+        [Absolute Lift] + NORM.S.INV(0.975) * [Lift Standard Error]
+
+    /// Display label for the 95% confidence interval in percentage points.
+    MEASURE 'FactExperimentUser'[Lift CI Label] =
+        VAR LowerPP = [Lift CI Lower] * 100
+        VAR UpperPP = [Lift CI Upper] * 100
+        RETURN
+            FORMAT(LowerPP, "+0.00;-0.00;0.00")
+                & " to "
+                & FORMAT(UpperPP, "+0.00;-0.00;0.00")
+                & " pp"
+
+    /// Completed-order revenue averaged across all mature exposed users.
+    MEASURE 'FactExperimentUser'[Retained Revenue per Exposed User] =
+        AVERAGE('FactExperimentUser'[retained_revenue])
+
+    MEASURE 'FactExperimentUser'[Control Retained Revenue per Exposed User] =
+        CALCULATE(
+            [Retained Revenue per Exposed User],
+            REMOVEFILTERS('DimVariant'),
+            'DimVariant'[experiment_group] = "control"
+        )
+
+    MEASURE 'FactExperimentUser'[Treatment Retained Revenue per Exposed User] =
+        CALCULATE(
+            [Retained Revenue per Exposed User],
+            REMOVEFILTERS('DimVariant'),
+            'DimVariant'[experiment_group] = "treatment"
+        )
+
+    /// Payment-attempt users with a failure divided by qualifying payment-attempt users.
+    MEASURE 'FactExperimentUser'[Payment Failure Rate] =
+        DIVIDE(
+            SUM('FactExperimentUser'[had_payment_failure]),
+            SUM('FactExperimentUser'[reached_payment_attempt])
+        )
+
+    /// Users with an error in the first valid exposure session divided by mature exposed users.
+    MEASURE 'FactExperimentUser'[Checkout Error Rate] =
+        AVERAGE('FactExperimentUser'[had_checkout_error])
+
+    /// Refunded or cancelled attributed orders divided by purchasers with mature seven-day follow-up.
+    MEASURE 'FactExperimentUser'[Refund / Cancellation Rate] =
+        DIVIDE(
+            SUM('FactExperimentUser'[refunded_or_cancelled]),
+            SUM('FactExperimentUser'[mature_order_followup])
+        )
+
+    /// Users reaching an ordered cumulative funnel step.
+    MEASURE 'FactFunnel'[Funnel Users] =
+        SUM('FactFunnel'[step_users])
+
+EVALUATE
+ROW(
+    "Mature Exposed Users", [Exposed Users],
+    "Control Users", [Control Users],
+    "Treatment Users", [Treatment Users],
+    "Control Conversion", [Control Conversion],
+    "Treatment Conversion", [Treatment Conversion],
+    "Absolute Lift", [Absolute Lift],
+    "Relative Lift", [Relative Lift],
+    "Two-Sided P-Value", [Two-Sided P-Value],
+    "Lift CI Lower", [Lift CI Lower],
+    "Lift CI Upper", [Lift CI Upper],
+    "Control Retained Revenue", [Control Retained Revenue per Exposed User],
+    "Treatment Retained Revenue", [Treatment Retained Revenue per Exposed User]
+)
+
+EVALUATE
+SUMMARIZECOLUMNS(
+    'DimVariant'[sort_order],
+    'DimVariant'[variant_label],
+    "Exposed Users", [Exposed Users],
+    "Purchase Conversion", [Purchase Conversion],
+    "Retained Revenue per Exposed User", [Retained Revenue per Exposed User],
+    "Payment Failure Rate", [Payment Failure Rate],
+    "Checkout Error Rate", [Checkout Error Rate],
+    "Refund / Cancellation Rate", [Refund / Cancellation Rate]
+)
+ORDER BY 'DimVariant'[sort_order]
