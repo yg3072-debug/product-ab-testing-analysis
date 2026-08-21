@@ -26,7 +26,7 @@ flowchart TB
 
 The report imports the two versioned CSV files from the public analysis repository. The model renames the imported queries to the neutral business-facing names above. The PBIX therefore contains no machine-specific local path and can refresh without access to the author's Windows directory.
 
-The frozen Day 16 source commit is `7b69e52a362da5232b7e029c56db165b38fb51ef`.
+The frozen processed-data source commit is `7b69e52a362da5232b7e029c56db165b38fb51ef`.
 
 ## Measure Catalog
 

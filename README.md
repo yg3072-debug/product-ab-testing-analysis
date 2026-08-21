@@ -15,6 +15,9 @@ experiment design → data simulation → SQL validation → funnel analysis
 
 Headline result: the simplified checkout increased purchase conversion from **27.47% to 29.63%** (**+2.16 percentage points**, two-sided `p = 0.0030`). The final recommendation is **Need more data before full launch** because guardrail confidence intervals do not yet establish safety.
 
+Recommended review path: business report → executive dashboard → reproducible analysis.
+
+- [Read the two-page A/B testing business report](week2_checkout_experiment/reports/checkout_ab_test_business_report.pdf)
 - [View the interactive executive dashboard](https://public.tableau.com/views/checkoutsimplificationABTest/ExecutiveDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 - [Download the Power BI executive report](https://github.com/yg3072-debug/analytics-dashboard-portfolio/blob/main/powerbi/checkout_ab_test_executive_dashboard.pbix)
 - [Open the dashboard portfolio repository](https://github.com/yg3072-debug/analytics-dashboard-portfolio)
