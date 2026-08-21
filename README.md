@@ -24,7 +24,7 @@ The foundational Week 1 analysis is structured around four main areas:
 1. Product metrics
 2. Funnel analysis
 3. Retention and cohort analysis
-4. A/B testing basics
+4. A/B test evaluation
 
 ## Week 1 Dataset
 
@@ -85,7 +85,7 @@ The retention notebook analyzes whether users return after their first active da
 
 The analysis accounts for observation window limitations when calculating selected retention metrics.
 
-### 4. A/B Testing Basics
+### 4. A/B Test Evaluation
 
 The A/B testing notebook simulates a checkout flow experiment and evaluates whether the treatment group has a higher purchase conversion rate than the control group.
 

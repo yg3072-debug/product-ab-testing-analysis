@@ -44,4 +44,4 @@ I built an e-commerce product analytics mini project using Python and pandas. I 
 
 I also conducted retention and cohort analysis by defining each user's first active date and measuring exact-day retention over time. Finally, I simulated an A/B test for a checkout flow, checked group balance across device and first-touch traffic source, calculated conversion uplift, and used a two-proportion z-test to evaluate statistical significance.
 
-This project helped me practice the full product analytics workflow: defining business questions, choosing the right metric grain, implementing the analysis in pandas, identifying metric-definition issues, and translating results into business recommendations.
+This project implements the full product analytics workflow: defining business questions, choosing the appropriate metric grain, performing the analysis in pandas, resolving metric-definition issues, and translating results into business recommendations.
