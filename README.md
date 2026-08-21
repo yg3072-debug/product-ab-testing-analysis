@@ -1,19 +1,33 @@
-# E-commerce Product Analytics Mini Project
+# Product Analytics and A/B Testing Portfolio
 
 ## Project Overview
 
-This project analyzes simulated e-commerce user behavior data to understand product performance, conversion funnel efficiency, user retention, and A/B testing outcomes. The goal is to practice core analytics workflows commonly used in Product Analyst, Data Analyst, Growth Analyst, and Business Intelligence roles.
+This repository analyzes simulated e-commerce behavior data to demonstrate product metrics, funnel and retention analysis, SQL validation, and end-to-end A/B testing. It is designed for Product Analyst, Data Analyst, Growth Analyst, Business Intelligence, and Analytics Consultant portfolios.
 
-The analysis is structured around four main areas:
+## Featured Case Study — Checkout A/B Test
+
+The [`week2_checkout_experiment`](week2_checkout_experiment/README.md) case study follows a checkout experiment from design through launch recommendation:
+
+```text
+experiment design → data simulation → SQL validation → funnel analysis
+→ statistical inference → segment analysis → guardrails → decision
+```
+
+Headline result: the simplified checkout increased purchase conversion from **27.47% to 29.63%** (**+2.16 percentage points**, two-sided `p = 0.0030`). The final recommendation is **Need more data before full launch** because guardrail confidence intervals do not yet establish safety.
+
+- [Open the complete Week 2 case study](week2_checkout_experiment/README.md)
+- [Read the one-page experiment readout](week2_checkout_experiment/experiment_readout.md)
+
+The foundational Week 1 analysis is structured around four main areas:
 
 1. Product metrics
 2. Funnel analysis
 3. Retention and cohort analysis
 4. A/B testing basics
 
-## Dataset
+## Week 1 Dataset
 
-The project uses three CSV files:
+The foundational Week 1 analysis uses three CSV files:
 
 - `users.csv`: user-level attributes such as user ID, device, country, and signup information
 - `events.csv`: event-level user behavior data such as product views, add-to-cart, checkout, purchase, event date, and traffic source
@@ -106,6 +120,8 @@ Important analytical lessons include:
 - numpy
 - matplotlib
 - statsmodels
+- SciPy
+- SQLite
 - Jupyter Notebook
 
 ## Portfolio Relevance
