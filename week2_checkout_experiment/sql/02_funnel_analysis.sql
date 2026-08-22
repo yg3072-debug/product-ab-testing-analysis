@@ -1,5 +1,5 @@
 -- ============================================================
--- WEEK 2 DAY 11: EXPERIMENT FUNNEL ANALYSIS
+-- CHECKOUT EXPERIMENT: ORDERED FUNNEL ANALYSIS
 -- ============================================================
 -- Business question:
 -- Does the simplified checkout flow move more mature, eligible
@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS deduplicated_assignments;
 DROP TABLE IF EXISTS ranked_assignments;
 
 -- ------------------------------------------------------------
--- 1. REBUILD THE DAY 10 CANONICAL POPULATION
+-- 1. REBUILD THE CANONICAL EXPERIMENT POPULATION
 -- ------------------------------------------------------------
 
 CREATE TEMP TABLE ranked_assignments AS
@@ -312,7 +312,7 @@ FROM user_level_funnel
 GROUP BY experiment_group;
 
 -- Descriptive treatment-control differences only. Statistical inference
--- is intentionally deferred to Day 12.
+-- is intentionally maintained in the primary inference notebook.
 
 CREATE TEMP TABLE funnel_comparison AS
 WITH metric_long AS (

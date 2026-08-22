@@ -16,12 +16,15 @@ All data are simulated and contain no real personal information.
 
 ## Final Readout
 
-The treatment increased purchase conversion from **27.47% to 29.63%**, an absolute lift of **+2.16 percentage points** and a relative lift of **+7.85%**. The two-sided p-value was **0.0030**, with a 95% confidence interval of **+0.73 to +3.58 percentage points**.
+Among **15,467 mature exposed users**, the treatment increased purchase conversion from **27.47% to 29.63%**, an absolute lift of **+2.16 percentage points** and a relative lift of **+7.85%**. The two-sided p-value was **0.0030**, with a 95% confidence interval of **+0.73 to +3.58 percentage points**.
 
 Retained revenue per exposed user increased from **$24.52 to $26.33**, but checkout-error and refund/cancellation intervals did not rule out meaningful harm. No segment dimension showed confirmed treatment-effect heterogeneity after correction.
 
 **Decision: Need more data before full launch.**
 
+Recommended review path: business report → executive dashboard → analytical workflow.
+
+- [Read the two-page A/B testing business report](reports/checkout_ab_test_business_report.pdf)
 - [View the interactive executive dashboard](https://public.tableau.com/views/checkoutsimplificationABTest/ExecutiveDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 - [Download the Power BI executive report](https://github.com/yg3072-debug/analytics-dashboard-portfolio/blob/main/powerbi/checkout_ab_test_executive_dashboard.pbix)
 - [Open the dashboard portfolio repository](https://github.com/yg3072-debug/analytics-dashboard-portfolio)
@@ -41,13 +44,15 @@ Retained revenue per exposed user increased from **$24.52 to $26.33**, but check
 | Secondary metrics, guardrails, and decision | [`07_secondary_guardrail_analysis.ipynb`](notebooks/07_secondary_guardrail_analysis.ipynb), [experiment readout](experiment_readout.md) |
 | Tableau-ready data layer and analysis views | [`08_tableau_data_preparation.ipynb`](notebooks/08_tableau_data_preparation.ipynb), [`checkout_ab_test_dashboard.twbx`](tableau/checkout_ab_test_dashboard.twbx), [Tableau documentation](tableau/README.md) |
 | Power BI semantic and reporting layer | [`powerbi/`](powerbi/), [Power BI documentation](powerbi/README.md) |
+| Business decision report | [`checkout_ab_test_business_report.pdf`](reports/checkout_ab_test_business_report.pdf), [maintainable report generator](reports/generate_business_report.py) |
 | Executive presentation | [Interactive Tableau dashboard](https://public.tableau.com/views/checkoutsimplificationABTest/ExecutiveDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link), [Power BI report](https://github.com/yg3072-debug/analytics-dashboard-portfolio/blob/main/powerbi/checkout_ab_test_executive_dashboard.pbix), [dashboard portfolio](https://github.com/yg3072-debug/analytics-dashboard-portfolio) |
 
 The workflow is designed to be read as:
 
 ```text
-business problem → experiment design → data validation → funnel
-→ statistical inference → segment analysis → guardrails → recommendation
+business problem → experiment design → reproducible data → SQL validation
+→ statistical inference → segment and guardrail analysis → dashboards
+→ executive recommendation → two-page business report
 ```
 
 ## Key Analytical Decisions
